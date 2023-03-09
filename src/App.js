@@ -84,7 +84,7 @@ function App() {
 
     return (
         <div className="container">
-            <Settings settings={settings}/>
+            <Settings settings={settings} setSettings={setSettings}/>
         </div>
     );
 }

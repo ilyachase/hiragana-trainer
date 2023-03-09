@@ -1,11 +1,17 @@
 import Accordion from 'react-bootstrap/Accordion';
 
-function Settings({settings}) {
+function Settings({settings, setSettings}) {
     const letterInputRows = [], letterInputs = [];
+
+    const onLetterCheckboxChange = function (letter) {
+        const changedLetterIndex = settings.hiragana.findIndex(item => item.id === letter.id);
+        settings.hiragana[changedLetterIndex].enabled = !settings.hiragana[changedLetterIndex].enabled;
+        setSettings(prevSettings => ({...prevSettings, hiragana: settings.hiragana}));
+    }
 
     settings.hiragana.forEach(function (letter) {
         letterInputs.push(<div className="p-2" key={letter.id}>
-            <input className="form-check-input hiragana-checkbox" type="checkbox" checked id={letter.id}/>
+            <input className="form-check-input hiragana-checkbox" type="checkbox" onChange={() => onLetterCheckboxChange(letter)} checked={letter.enabled} id={letter.id}/>
             <label className="form-check-label" htmlFor={letter.id}>
                 <img src={'./Hiragana/' + letter.id + '.svg'} alt={letter.id} className="img-thumbnail hiragana-settings-letter"/>
             </label>
