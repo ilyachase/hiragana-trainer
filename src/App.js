@@ -2,6 +2,7 @@ import './App.css';
 import Settings from "./Components/Settings";
 import {useState} from "react";
 import Letter from "./Components/Letter";
+import RomajiInput from "./Components/RomajiInput";
 
 function App() {
     const [settings, setSettings] = useState({
@@ -92,6 +93,7 @@ function App() {
             <div className="mt-2 d-flex justify-content-center">
                 <form>
                     <Letter id={randomLetter.id}/>
+                    <RomajiInput/>
                 </form>
             </div>
         </div>
