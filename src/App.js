@@ -1,6 +1,7 @@
 import './App.css';
 import Settings from "./Components/Settings";
 import {useState} from "react";
+import Letter from "./Components/Letter";
 
 function App() {
     const [settings, setSettings] = useState({
@@ -82,9 +83,17 @@ function App() {
         lettersInRound: 5
     });
 
+    const enabledHiragana = settings.hiragana.filter(item => item.enabled);
+    let randomLetter = enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)];
+
     return (
         <div className="container">
             <Settings settings={settings} setSettings={setSettings}/>
+            <div className="mt-2 d-flex justify-content-center">
+                <form>
+                    <Letter id={randomLetter.id}/>
+                </form>
+            </div>
         </div>
     );
 }
