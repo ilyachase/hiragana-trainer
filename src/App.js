@@ -5,7 +5,17 @@ import Letter from "./Components/Letter";
 import RomajiInput from "./Components/RomajiInput";
 
 function App() {
-    const [settings, setSettings] = useState({
+    function saveToStorage(key, value) {
+        window.localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function loadFromStorage(key) {
+        let value = window.localStorage.getItem(key);
+        return value !== null ? JSON.parse(value) : null;
+    }
+
+    let settings, setSettings;
+    settings = loadFromStorage('settings') ?? {
         hiragana: [
             {id: "Hiragana_letter_A", romaji: "a", enabled: true},
             {id: "Hiragana_letter_I", romaji: "i", enabled: true},
@@ -82,14 +92,20 @@ function App() {
             {id: "Hiragana_letter_Vu", romaji: "vu", enabled: true}
         ],
         lettersInRound: 5
-    });
+    };
+
+    [settings, setSettings] = useState(settings);
 
     const enabledHiragana = settings.hiragana.filter(item => item.enabled);
     let randomLetter = enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)];
+    console.log(randomLetter);
 
     return (
         <div className="container">
-            <Settings settings={settings} setSettings={setSettings}/>
+            <Settings settings={settings} setSettings={setSettingsCallable => {
+                setSettings(setSettingsCallable);
+                saveToStorage('settings', settings)
+            }}/>
             <div className="mt-2 d-flex justify-content-center">
                 <form>
                     <Letter id={randomLetter.id}/>
