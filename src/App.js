@@ -97,7 +97,9 @@ function App() {
     [settings, setSettings] = useState(settings);
 
     const enabledHiragana = settings.hiragana.filter(item => item.enabled);
-    let randomLetter = enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)];
+    const [randomLetter, setRandomLetter] = useState(enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)]);
+    const onCorrectLetter = () => setRandomLetter(enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)]);
+
     console.log(randomLetter);
 
     return (
@@ -109,7 +111,7 @@ function App() {
             <div className="mt-2 d-flex justify-content-center">
                 <form>
                     <Letter id={randomLetter.id}/>
-                    <RomajiInput/>
+                    <RomajiInput randomLetter={randomLetter} onCorrectLetter={onCorrectLetter}/>
                 </form>
             </div>
         </div>
