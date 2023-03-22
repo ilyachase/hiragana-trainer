@@ -1,6 +1,6 @@
 import './App.css';
 import Settings from "./Components/Settings";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Letter from "./Components/Letter";
 import RomajiInput from "./Components/RomajiInput";
 
@@ -91,10 +91,13 @@ function App() {
             {id: "Hiragana_letter_N", romaji: "n", enabled: true},
             {id: "Hiragana_letter_Vu", romaji: "vu", enabled: true}
         ],
-        lettersInRound: 5
+        lettersInRound: 30
     };
 
+    console.log(settings);
+
     [settings, setSettings] = useState(settings);
+    useEffect(() => saveToStorage('settings', settings), [settings]);
 
     const enabledHiragana = settings.hiragana.filter(item => item.enabled);
     const [randomLetter, setRandomLetter] = useState(enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)]);
@@ -104,10 +107,7 @@ function App() {
 
     return (
         <div className="container">
-            <Settings settings={settings} setSettings={setSettingsCallable => {
-                setSettings(setSettingsCallable);
-                saveToStorage('settings', settings)
-            }}/>
+            <Settings settings={settings} setSettings={setSettings}/>
             <div className="mt-2 d-flex justify-content-center">
                 <form>
                     <Letter id={randomLetter.id}/>

@@ -9,6 +9,10 @@ function Settings({settings, setSettings}) {
         setSettings(prevSettings => ({...prevSettings, hiragana: settings.hiragana}));
     }
 
+    const onLettersInRoundInputChange = function (event) {
+        setSettings(prevSettings => ({...prevSettings, lettersInRound: event.target.value === '' ? '' : parseInt(event.target.value)}));
+    }
+
     settings.hiragana.forEach(function (letter) {
         letterInputs.push(<div className="p-2" key={letter.id}>
             <input className="form-check-input hiragana-checkbox" type="checkbox" onChange={() => onLetterCheckboxChange(letter)} checked={letter.enabled} id={letter.id}/>
@@ -34,8 +38,8 @@ function Settings({settings, setSettings}) {
                         {letterInputRows}
                         <h5>Letters in a round</h5>
                         <div className="mb-3 d-inline-flex">
-                            <input autoComplete="off" type="text" className="form-control"
-                                   id="letters-in-round-input" aria-describedby="emailHelp"/>
+                            <input autoComplete="off" type="text" className="form-control" onChange={onLettersInRoundInputChange}
+                                   id="letters-in-round-input" aria-describedby="emailHelp" value={settings.lettersInRound ?? ''}/>
                         </div>
                     </form>
                 </Accordion.Body>
