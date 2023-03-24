@@ -3,6 +3,7 @@ import Settings from "./Components/Settings";
 import {useEffect, useState} from "react";
 import Letter from "./Components/Letter";
 import RomajiInput from "./Components/RomajiInput";
+import History from "./Components/History";
 
 function App() {
     function saveToStorage(key, value) {
@@ -14,8 +15,7 @@ function App() {
         return value !== null ? JSON.parse(value) : null;
     }
 
-    let settings, setSettings;
-    settings = loadFromStorage('settings') ?? {
+    const [settings, setSettings] = useState(loadFromStorage('settings') ?? {
         hiragana: [
             {id: "Hiragana_letter_A", romaji: "a", enabled: true},
             {id: "Hiragana_letter_I", romaji: "i", enabled: true},
@@ -92,28 +92,36 @@ function App() {
             {id: "Hiragana_letter_Vu", romaji: "vu", enabled: true}
         ],
         lettersInRound: 30
-    };
-
-    console.log(settings);
-
-    [settings, setSettings] = useState(settings);
+    });
     useEffect(() => saveToStorage('settings', settings), [settings]);
 
     const enabledHiragana = settings.hiragana.filter(item => item.enabled);
     const [randomLetter, setRandomLetter] = useState(enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)]);
     const onLetterAnswer = () => setRandomLetter(enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)]);
     const [currentRoundCount, setCurrentRoundCount] = useState(0);
+    const [history, setHistory] = useState(loadFromStorage('history') ?? []);
+    useEffect(() => {
+        saveToStorage('history', history);
+        console.log('saved history')
+    }, [history]);
+    const [round, setRound] = useState({date: new Date().toLocaleString(), correct: 0, incorrect: 0, total: settings.lettersInRound});
 
     const onAnswer = (answer) => {
+        const newRound = {...round, correct: answer === 'correct' ? round.correct + 1 : round.correct, incorrect: answer === 'incorrect' ? round.incorrect + 1 : round.incorrect};
+        setRound(newRound);
         if (currentRoundCount + 1 >= settings.lettersInRound) {
             setCurrentRoundCount(0);
-            console.log('round end');
+            const newHistory = [...history];
+            if (newHistory.length >= 10) {
+                newHistory.shift();
+            }
+            newHistory.push(newRound);
+            setHistory(newHistory);
+            setRound({date: new Date().toLocaleString(), correct: 0, incorrect: 0, total: settings.lettersInRound});
         } else {
             setCurrentRoundCount(current => current + 1);
         }
     }
-
-    console.log(randomLetter);
 
     return (
         <div className="container">
@@ -130,6 +138,7 @@ function App() {
                     />
                 </form>
             </div>
+            <History history={history}/>
         </div>
     );
 }
