@@ -105,6 +105,7 @@ function App() {
     }, [history]);
     const [round, setRound] = useState({date: new Date().toLocaleString(), correct: 0, incorrect: 0, total: settings.lettersInRound});
 
+    // onAnswer
     const onAnswer = (answer) => {
         const newRound = {...round, correct: answer === 'correct' ? round.correct + 1 : round.correct, incorrect: answer === 'incorrect' ? round.incorrect + 1 : round.incorrect};
         setRound(newRound);
