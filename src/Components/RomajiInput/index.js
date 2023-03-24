@@ -22,7 +22,7 @@ function RomajiInput({randomLetter, onLetterAnswer, currentRoundCount, onAnswer,
             <label htmlFor="romaji-input" className="form-label">Romaji</label>
             <div className="d-flex align-items-baseline">
                 <input autoComplete="off" type="text" className={'form-control' + (inputState.state === 'correct' ? ' is-valid' : inputState.state === 'incorrect' ? ' is-invalid' : '')} id="romaji-input" aria-describedby="emailHelp" onKeyDown={onKeyDown}/>
-                <div style={{width: '15%', textAlign: 'center'}}><span>{currentRoundCount}</span> / <span>{lettersInRound}</span></div>
+                <div style={{width: '20%', textAlign: 'center'}}><span>{currentRoundCount}</span> / <span>{lettersInRound}</span></div>
             </div>
         </div>
     );
