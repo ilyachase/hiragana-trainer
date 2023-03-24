@@ -113,9 +113,9 @@ function App() {
             setCurrentRoundCount(0);
             const newHistory = [...history];
             if (newHistory.length >= 10) {
-                newHistory.shift();
+                newHistory.pop();
             }
-            newHistory.push(newRound);
+            newHistory.unshift(newRound);
             setHistory(newHistory);
             setRound({date: new Date().toLocaleString(), correct: 0, incorrect: 0, total: settings.lettersInRound});
         } else {
