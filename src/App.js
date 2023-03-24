@@ -102,7 +102,6 @@ function App() {
     const [history, setHistory] = useState(loadFromStorage('history') ?? []);
     useEffect(() => {
         saveToStorage('history', history);
-        console.log('saved history')
     }, [history]);
     const [round, setRound] = useState({date: new Date().toLocaleString(), correct: 0, incorrect: 0, total: settings.lettersInRound});
 
