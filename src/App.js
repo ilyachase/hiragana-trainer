@@ -101,7 +101,17 @@ function App() {
 
     const enabledHiragana = settings.hiragana.filter(item => item.enabled);
     const [randomLetter, setRandomLetter] = useState(enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)]);
-    const onCorrectLetter = () => setRandomLetter(enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)]);
+    const onLetterAnswer = () => setRandomLetter(enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)]);
+    const [currentRoundCount, setCurrentRoundCount] = useState(0);
+
+    const onAnswer = (answer) => {
+        if (currentRoundCount + 1 >= settings.lettersInRound) {
+            setCurrentRoundCount(0);
+            console.log('round end');
+        } else {
+            setCurrentRoundCount(current => current + 1);
+        }
+    }
 
     console.log(randomLetter);
 
@@ -111,7 +121,13 @@ function App() {
             <div className="mt-2 d-flex justify-content-center">
                 <form>
                     <Letter id={randomLetter.id}/>
-                    <RomajiInput randomLetter={randomLetter} onCorrectLetter={onCorrectLetter}/>
+                    <RomajiInput
+                        randomLetter={randomLetter}
+                        onLetterAnswer={onLetterAnswer}
+                        lettersInRound={settings.lettersInRound}
+                        currentRoundCount={currentRoundCount}
+                        onAnswer={onAnswer}
+                    />
                 </form>
             </div>
         </div>
