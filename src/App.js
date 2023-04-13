@@ -90,12 +90,11 @@ function App() {
             {id: "Hiragana_letter_Wo", romaji: "wo", enabled: true},
             {id: "Hiragana_letter_N", romaji: "n", enabled: true},
             {id: "Hiragana_letter_Vu", romaji: "vu", enabled: true}
-        ],
-        lettersInRound: 30
+        ]
     });
     useEffect(() => saveToStorage('settings', settings), [settings]);
 
-    const enabledHiragana = settings.hiragana.filter(item => item.enabled);
+    const enabledHiragana = settings.hiragana.filter(item => item.enabled), lettersInRound = enabledHiragana.length;
     const [randomLetter, setRandomLetter] = useState(enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)]);
     const onLetterAnswer = () => setRandomLetter(enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)]);
     const [currentRoundCount, setCurrentRoundCount] = useState(0);
@@ -103,13 +102,13 @@ function App() {
     useEffect(() => {
         saveToStorage('history', history);
     }, [history]);
-    const [round, setRound] = useState({date: new Date().toLocaleString(), correct: 0, incorrect: 0, total: settings.lettersInRound});
+    const [round, setRound] = useState({date: new Date().toLocaleString(), correct: 0, incorrect: 0, total: lettersInRound});
 
     // onAnswer
     const onAnswer = (answer) => {
         const newRound = {...round, correct: answer === 'correct' ? round.correct + 1 : round.correct, incorrect: answer === 'incorrect' ? round.incorrect + 1 : round.incorrect};
         setRound(newRound);
-        if (currentRoundCount + 1 >= settings.lettersInRound) {
+        if (currentRoundCount + 1 >= lettersInRound) {
             setCurrentRoundCount(0);
             const newHistory = [...history];
             if (newHistory.length >= 10) {
@@ -117,7 +116,7 @@ function App() {
             }
             newHistory.unshift(newRound);
             setHistory(newHistory);
-            setRound({date: new Date().toLocaleString(), correct: 0, incorrect: 0, total: settings.lettersInRound});
+            setRound({date: new Date().toLocaleString(), correct: 0, incorrect: 0, total: lettersInRound});
         } else {
             setCurrentRoundCount(current => current + 1);
         }
@@ -128,11 +127,11 @@ function App() {
             <Settings settings={settings} setSettings={setSettings}/>
             <div className="mt-2 d-flex justify-content-center">
                 <form>
-                    <Letter id={randomLetter.id}/>
+                    <Letter id={randomLetter?.id}/>
                     <RomajiInput
                         randomLetter={randomLetter}
                         onLetterAnswer={onLetterAnswer}
-                        lettersInRound={settings.lettersInRound}
+                        lettersInRound={lettersInRound}
                         currentRoundCount={currentRoundCount}
                         onAnswer={onAnswer}
                     />

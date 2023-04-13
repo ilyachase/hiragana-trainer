@@ -1,4 +1,5 @@
 import Accordion from 'react-bootstrap/Accordion';
+import {Button, Form} from "react-bootstrap";
 
 function Settings({settings, setSettings}) {
     const letterInputRows = [], letterInputs = [];
@@ -9,15 +10,13 @@ function Settings({settings, setSettings}) {
         setSettings(prevSettings => ({...prevSettings, hiragana: settings.hiragana}));
     }
 
-    const onLettersInRoundInputChange = function (event) {
-        setSettings(prevSettings => ({...prevSettings, lettersInRound: event.target.value === '' ? '' : parseInt(event.target.value)}));
-    }
-
     settings.hiragana.forEach(function (letter) {
         letterInputs.push(<div className="p-2" key={letter.id}>
-            <input className="form-check-input hiragana-checkbox" type="checkbox" onChange={() => onLetterCheckboxChange(letter)} checked={letter.enabled} id={letter.id}/>
+            <input className="form-check-input hiragana-checkbox" type="checkbox"
+                   onChange={() => onLetterCheckboxChange(letter)} checked={letter.enabled} id={letter.id}/>
             <label className="form-check-label" htmlFor={letter.id}>
-                <img src={'./Hiragana/' + letter.id + '.svg'} alt={letter.id} title={letter.id} className="img-thumbnail hiragana-settings-letter"/>
+                <img src={'./Hiragana/' + letter.id + '.svg'} alt={letter.id} title={letter.id}
+                     className="img-thumbnail hiragana-settings-letter"/>
             </label>
         </div>);
     });
@@ -34,13 +33,18 @@ function Settings({settings, setSettings}) {
                 <Accordion.Header>Settings</Accordion.Header>
                 <Accordion.Body>
                     <h5>Include following letters</h5>
+                    <Form.Group className="mb-3">
+                        <Button variant="secondary" onClick={() => {
+                            settings.hiragana.forEach(item => item.enabled = true);
+                            setSettings(prevSettings => ({...prevSettings, hiragana: settings.hiragana}));
+                        }}>Select all</Button>{' '}
+                        <Button variant="secondary" onClick={() => {
+                            settings.hiragana.forEach(item => item.enabled = false);
+                            setSettings(prevSettings => ({...prevSettings, hiragana: settings.hiragana}));
+                        }}>Select none</Button>
+                    </Form.Group>
                     <form>
                         {letterInputRows}
-                        <h5>Letters in a round</h5>
-                        <div className="mb-3 d-inline-flex">
-                            <input autoComplete="off" type="text" className="form-control" onChange={onLettersInRoundInputChange}
-                                   id="letters-in-round-input" aria-describedby="emailHelp" value={settings.lettersInRound ?? ''}/>
-                        </div>
                     </form>
                 </Accordion.Body>
             </Accordion.Item>
