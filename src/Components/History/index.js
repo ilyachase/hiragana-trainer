@@ -1,21 +1,17 @@
 function History({history}) {
     return (
-        <div className="mt-5 col-6 offset-3">
+        <div className="mt-5 col-4 offset-4">
             <table className="table" id="history">
                 <thead>
                 <tr>
-                    <th scope="col">Date</th>
+                    <th scope="col">Answer</th>
                     <th scope="col">Correct</th>
-                    <th scope="col">Wrong</th>
-                    <th scope="col">Total</th>
                 </tr>
                 </thead>
                 <tbody>
-                {history.map(record => (<tr key={record.date}>
-                    <td><span>{record.date}</span></td>
-                    <td><span className="text-success-emphasis">{record.correct}</span></td>
-                    <td><span className="text-danger-emphasis">{record.incorrect}</span></td>
-                    <td><span>{record.total}</span></td>
+                {history.map((record, index) => (<tr key={index}>
+                    <td><span className={record.isCorrect ? 'text-success-emphasis' : 'text-danger-emphasis'}>{record.actual}</span></td>
+                    <td>{record.expected}</td>
                 </tr>))}
                 </tbody>
             </table>

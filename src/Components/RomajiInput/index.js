@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-function RomajiInput({randomLetter, onLetterAnswer, currentRoundCount, onAnswer, lettersInRound}) {
+function RomajiInput({randomLetter, currentRoundCount, onAnswer, lettersInRound}) {
     const [inputState, setInputState] = useState({state: null});
 
     const onKeyDown = function (event) {
@@ -9,11 +9,9 @@ function RomajiInput({randomLetter, onLetterAnswer, currentRoundCount, onAnswer,
 
             const answer = event.target.value === randomLetter.romaji ? 'correct' : 'incorrect';
             setInputState({state: answer});
-            onLetterAnswer(answer);
+            onAnswer(event.target.value, answer === 'correct');
 
             event.target.value = '';
-
-            onAnswer(answer);
         }
     }
 

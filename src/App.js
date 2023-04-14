@@ -96,30 +96,21 @@ function App() {
 
     const enabledHiragana = settings.hiragana.filter(item => item.enabled), lettersInRound = enabledHiragana.length;
     const [randomLetter, setRandomLetter] = useState(enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)]);
-    const onLetterAnswer = () => setRandomLetter(enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)]);
     const [currentRoundCount, setCurrentRoundCount] = useState(0);
-    const [history, setHistory] = useState(loadFromStorage('history') ?? []);
-    useEffect(() => {
-        saveToStorage('history', history);
-    }, [history]);
-    const [round, setRound] = useState({date: new Date().toLocaleString(), correct: 0, incorrect: 0, total: lettersInRound});
+    const [history, setHistory] = useState([]);
 
     // onAnswer
-    const onAnswer = (answer) => {
-        const newRound = {...round, correct: answer === 'correct' ? round.correct + 1 : round.correct, incorrect: answer === 'incorrect' ? round.incorrect + 1 : round.incorrect};
-        setRound(newRound);
+    const onAnswer = (letterId, isCorrect) => {
         if (currentRoundCount + 1 >= lettersInRound) {
             setCurrentRoundCount(0);
-            const newHistory = [...history];
-            if (newHistory.length >= 10) {
-                newHistory.pop();
-            }
-            newHistory.unshift(newRound);
-            setHistory(newHistory);
-            setRound({date: new Date().toLocaleString(), correct: 0, incorrect: 0, total: lettersInRound});
         } else {
             setCurrentRoundCount(current => current + 1);
         }
+
+        const newHistory = [...history];
+        newHistory.unshift({isCorrect: isCorrect, actual: letterId, expected: randomLetter.romaji});
+        setHistory(newHistory);
+        setRandomLetter(enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)]);
     }
 
     return (
@@ -130,7 +121,6 @@ function App() {
                     <Letter id={randomLetter?.id}/>
                     <RomajiInput
                         randomLetter={randomLetter}
-                        onLetterAnswer={onLetterAnswer}
                         lettersInRound={lettersInRound}
                         currentRoundCount={currentRoundCount}
                         onAnswer={onAnswer}
