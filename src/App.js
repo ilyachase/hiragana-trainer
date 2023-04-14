@@ -96,17 +96,10 @@ function App() {
 
     const enabledHiragana = settings.hiragana.filter(item => item.enabled), lettersInRound = enabledHiragana.length;
     const [randomLetter, setRandomLetter] = useState(enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)]);
-    const [currentRoundCount, setCurrentRoundCount] = useState(0);
     const [history, setHistory] = useState([]);
 
     // onAnswer
     const onAnswer = (letterId, isCorrect) => {
-        if (currentRoundCount + 1 >= lettersInRound) {
-            setCurrentRoundCount(0);
-        } else {
-            setCurrentRoundCount(current => current + 1);
-        }
-
         const newHistory = [...history];
         newHistory.unshift({isCorrect: isCorrect, actual: letterId, expected: randomLetter.romaji});
         setHistory(newHistory);
@@ -122,7 +115,6 @@ function App() {
                     <RomajiInput
                         randomLetter={randomLetter}
                         lettersInRound={lettersInRound}
-                        currentRoundCount={currentRoundCount}
                         onAnswer={onAnswer}
                     />
                 </form>
