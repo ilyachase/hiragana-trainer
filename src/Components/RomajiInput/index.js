@@ -35,7 +35,7 @@ function RomajiInput({randomLetter, onAnswer, lettersInRound}) {
                 <input autoComplete="off" type="text"
                        className={'form-control' + (inputState.state === 'correct' ? ' is-valid' : inputState.state === 'incorrect' ? ' is-invalid' : '')}
                        id="romaji-input" aria-describedby="emailHelp" onKeyDown={onKeyDown}/>
-                <div style={{width: '20%', textAlign: 'center'}}>
+                <div style={{width: '25%', textAlign: 'center'}}>
                     <span className={'text-success-emphasis'}>{correctCount}</span> / <span
                     className={'text-danger-emphasis'}>{incorrectCount}</span> / <span>{lettersInRound - correctCount - incorrectCount}</span>
                 </div>

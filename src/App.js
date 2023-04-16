@@ -6,6 +6,8 @@ import RomajiInput from "./Components/RomajiInput";
 import History from "./Components/History";
 
 function App() {
+    const [history, setHistory] = useState([]);
+
     function saveToStorage(key, value) {
         window.localStorage.setItem(key, JSON.stringify(value));
     }
@@ -95,15 +97,30 @@ function App() {
     useEffect(() => saveToStorage('settings', settings), [settings]);
 
     const enabledHiragana = settings.hiragana.filter(item => item.enabled), lettersInRound = enabledHiragana.length;
-    const [randomLetter, setRandomLetter] = useState(enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)]);
-    const [history, setHistory] = useState([]);
+    const [answeredLetters, setAnsweredLetters] = useState([]);
+    useEffect(() => setRandomLetter(generateNewLetter()), [answeredLetters]);
+    const generateNewLetter = () => {
+        let newLetter;
+
+        do {
+            newLetter = enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)];
+        } while (answeredLetters.findIndex(letterId => letterId === newLetter.romaji) !== -1);
+
+        return newLetter;
+    }
+    const [randomLetter, setRandomLetter] = useState();
 
     // onAnswer
     const onAnswer = (letterId, isCorrect) => {
         const newHistory = [...history];
         newHistory.unshift({isCorrect: isCorrect, actual: letterId, expected: randomLetter.romaji});
         setHistory(newHistory);
-        setRandomLetter(enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)]);
+
+        if (answeredLetters.length + 1 >= lettersInRound) {
+            setAnsweredLetters([]);
+        } else {
+            setAnsweredLetters(current => [...current, randomLetter.romaji]);
+        }
     }
 
     return (
