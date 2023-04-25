@@ -65,7 +65,7 @@ function App() {
             {id: "Hiragana_letter_Hi", romaji: "hi", enabled: true},
             {id: "Hiragana_letter_Bi", romaji: "bi", enabled: true},
             {id: "Hiragana_letter_Pi", romaji: "pi", enabled: true},
-            {id: "Hiragana_letter_Hu", romaji: "hu", enabled: true},
+            {id: "Hiragana_letter_Fu", romaji: "fu", enabled: true},
             {id: "Hiragana_letter_Bu", romaji: "bu", enabled: true},
             {id: "Hiragana_letter_Pu", romaji: "pu", enabled: true},
             {id: "Hiragana_letter_He", romaji: "he", enabled: true},
