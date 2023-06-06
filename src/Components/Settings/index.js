@@ -98,7 +98,7 @@ const defaultSettings = {
         {id: "Hiragana_letter_Yu", romaji: "yu", enabled: true},
         {id: "Hiragana_letter_Yo", romaji: "yo", enabled: true},
         {id: "Hiragana_letter_Wa", romaji: "wa", enabled: true},
-        {id: "Hiragana_letter_Wo", romaji: "o", enabled: true},
+        {id: "Hiragana_letter_Wo", romaji: "wo", enabled: true},
         {id: "Hiragana_letter_N", romaji: "n", enabled: true},
         {id: "Hiragana_letter_Wi", romaji: "wi", enabled: true},
         {id: "Hiragana_letter_We", romaji: "we", enabled: true},
