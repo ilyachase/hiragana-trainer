@@ -6,35 +6,27 @@ import RomajiInput from "./Components/RomajiInput";
 import History from "./Components/History";
 import {loadFromStorage, saveToStorage} from "./helpers";
 
-const generateNewLetter = (enabledHiragana, answeredLetters) => {
-    let newLetter;
-
-    do {
-        newLetter = enabledHiragana[Math.floor(Math.random() * enabledHiragana.length)];
-    } while (answeredLetters.findIndex(letterId => letterId === newLetter.romaji) !== -1);
-
-    return newLetter;
-}
-
 function App() {
     const [history, setHistory] = useState([]);
     const [settings, setSettings] = useState(loadFromStorage('settings') ?? defaultSettings);
     const [randomLetter, setRandomLetter] = useState();
-    const [answeredLetters, setAnsweredLetters] = useState([]);
+    const enabledHiragana = settings.hiragana.filter(item => item.enabled), lettersInRound = enabledHiragana.length;
+    const [lettersToAnswer, setLettersToAnswer] = useState([...enabledHiragana]);
 
     useEffect(() => saveToStorage('settings', settings), [settings]);
-    const enabledHiragana = settings.hiragana.filter(item => item.enabled), lettersInRound = enabledHiragana.length;
-    useEffect(() => setRandomLetter(generateNewLetter(enabledHiragana, answeredLetters)), [answeredLetters]);
+    useEffect(() => {
+        setRandomLetter(lettersToAnswer[Math.floor(Math.random() * lettersToAnswer.length)])
+    }, [lettersToAnswer]);
 
     const onAnswer = (letterId, isCorrect) => {
         const newHistory = [...history];
         newHistory.unshift({isCorrect: isCorrect, actual: letterId, expected: randomLetter.romaji});
         setHistory(newHistory);
 
-        if (answeredLetters.length + 1 >= lettersInRound) {
-            setAnsweredLetters([]);
+        if (lettersToAnswer.length === 1) {
+            setLettersToAnswer([...enabledHiragana]);
         } else {
-            setAnsweredLetters(current => [...current, randomLetter.romaji]);
+            setLettersToAnswer(current => [...current.filter(item => item.id !== randomLetter.id)]);
         }
     }
 
