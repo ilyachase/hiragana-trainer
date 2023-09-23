@@ -35,7 +35,7 @@ function App() {
             <Settings settings={settings} setSettings={setSettings}/>
             <div className="mt-2 d-flex justify-content-center">
                 <form>
-                    <Letter id={randomLetter?.id}/>
+                    <Letter randomLetter={randomLetter}/>
                     <RomajiInput
                         randomLetter={randomLetter}
                         lettersInRound={lettersInRound}

@@ -15,7 +15,7 @@ function Settings({settings, setSettings}) {
             <input className="form-check-input hiragana-checkbox" type="checkbox"
                    onChange={() => onLetterCheckboxChange(letter)} checked={letter.enabled} id={letter.id}/>
             <label className="form-check-label" htmlFor={letter.id}>
-                <img src={'./Hiragana/' + letter.id + '.svg'} alt={letter.id} title={letter.id}
+                <img src={'./Hiragana/' + letter.id + '.svg'} alt={letter.romaji} title={letter.romaji}
                      className="img-thumbnail hiragana-settings-letter"/>
             </label>
         </div>);
