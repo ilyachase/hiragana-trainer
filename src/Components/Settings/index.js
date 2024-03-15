@@ -155,7 +155,7 @@ const defaultSettings = {
         {id:"Japanese_Katakana_kyokashotai_NO", romaji: "no", enabled: true},
         {id:"Japanese_Katakana_kyokashotai_HA", romaji: "ha", enabled: true},
         {id:"Japanese_Katakana_kyokashotai_HI", romaji: "hi", enabled: true},
-        {id:"Japanese_Katakana_kyokashotai_HU", romaji: "hu", enabled: true},
+        {id:"Japanese_Katakana_kyokashotai_HU", romaji: "fu", enabled: true},
         {id:"Japanese_Katakana_kyokashotai_HE", romaji: "he", enabled: true},
         {id:"Japanese_Katakana_kyokashotai_HO", romaji: "ho", enabled: true},
         {id:"Japanese_Katakana_kyokashotai_MA", romaji: "ma", enabled: true},
@@ -174,7 +174,7 @@ const defaultSettings = {
         {id:"Japanese_Katakana_kyokashotai_WA", romaji: "wa", enabled: true},
         {id:"Japanese_Katakana_kyokashotai_WI", romaji: "wi", enabled: true},
         {id:"Japanese_Katakana_kyokashotai_WE", romaji: "we", enabled: true},
-        {id:"Japanese_Katakana_kyokashotai_WO", romaji: "wo", enabled: true},
+        {id:"Japanese_Katakana_kyokashotai_WO", romaji: "o", enabled: true},
         {id:"Japanese_Katakana_kyokashotai_N", romaji: "n", enabled: true},
     ]
 };
